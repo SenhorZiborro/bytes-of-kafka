@@ -1,0 +1,32 @@
+services:
+  kafka:
+    image: apache/kafka:4.1.1
+    container_name: kafka-4-1-1
+    ports:
+      - "9092:9092"
+    environment:
+      # --- Basic KRaft Configurations ---
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@localhost:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      
+      # --- RETENTION TEST CONFIGURATIONS ---
+      
+      # 1. Retention: Deletes data older than 10 seconds
+      KAFKA_LOG_RETENTION_MS: 10000
+      
+      # 2. Check Interval: The "cleaner" thread runs every 2 seconds looking for expired logs
+      KAFKA_LOG_RETENTION_CHECK_INTERVAL_MS: 2000
+      
+      # 3. Size-based Rotation: Forces the segment to close if it reaches 1MB (very fast rotation)
+      KAFKA_LOG_SEGMENT_BYTES: 1048576
+      
+      # 4. Forces the active segment to close every 5 seconds.
+      # Without this, Kafka would keep the segment open (and wouldn't delete it) 
+      # until it reached the KAFKA_LOG_SEGMENT_BYTES size.
+      KAFKA_LOG_ROLL_MS: 5000
