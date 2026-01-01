@@ -6,6 +6,6 @@ Uma coleção de notas rápidas, conceitos fundamentais e configurações essenc
 
 ### Labs
 
-* **lab 1** - Retention policy
+* Acesse o **[Laboratório 00 - Retention Policy](./labs/labs-0)**
 
-* **lab 2** - Schema registry
+* Acesse o **[Laboratório 01 - Schema Registry](./labs/labs-1)**
